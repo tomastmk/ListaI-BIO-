@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np 
 from math import e,pi,sqrt
+from matplotlib.ticker import NullFormatter
+
 
 def esperanca(lista,n):
     E = 0
@@ -16,7 +18,7 @@ def dpAmostral(lista,esperanca,n):
     dp = (soma/(n-1))**(1/2)
     return dp
 
-def aI():
+def histogramas():
 
     arq = open("trajetorias.csv","r")
 
@@ -44,17 +46,6 @@ def aI():
         PhiLeu_33.append(linha[4])
         PsiLeu_33.append(linha[5])
 
-    E0 = esperanca(angulo,5500)
-    E1 = esperanca(PhiGlu_10,5500)
-    E2 = esperanca(PsiGlu_10,5500)
-    E3 = esperanca(PhiLeu_33,5500)
-    E4 = esperanca(PsiLeu_33,5500)
-    dp0 = dpAmostral(angulo,E0,5500)
-    dp1 = dpAmostral(PhiGlu_10,E1,5500)
-    dp2 = dpAmostral(PsiGlu_10,E2,5500)
-    dp3 = dpAmostral(PhiLeu_33,E3,5500)
-    dp4 = dpAmostral(PsiLeu_33,E4,5500)
-
     for i in range(40):
         bin.append(-180+(i+1)*4.5)
     for i in range(40):
@@ -63,14 +54,14 @@ def aI():
     if aminoacido == "L" or aminoacido=="l":
 
         plt.title('Leucina')
-        plt.xlabel('Ângulo Phi')
+        plt.xlabel('Phi(φ)')
         plt.ylabel('Frequência Absoluta')
         plt.hist(PhiLeu_33, bin, rwidth=2, color='blue', alpha=0.7,edgecolor='black')
 
         plt.show()
 
         plt.title('Leucina')
-        plt.xlabel('Ângulo Psi')
+        plt.xlabel('Psi(ψ)')
         plt.ylabel('Frequência Absoluta')
 
         plt.hist(PsiLeu_33, bin, rwidth=2, color='red', alpha=1,edgecolor='black')
@@ -79,7 +70,7 @@ def aI():
 
     elif aminoacido == "T" or aminoacido=="t":
         plt.title('Theta')
-        plt.xlabel('Ângulo Theta')
+        plt.xlabel('Theta(Θ)')
         plt.ylabel('Frequência Absoluta')
         
         plt.hist(angulo, bin, rwidth=2, color='blue', alpha=0.7,edgecolor='black')
@@ -87,23 +78,23 @@ def aI():
         plt.show()
 
     else:
-        plt.title('Glutamato')
-        plt.xlabel('Ângulo Phi')
+        plt.title('Ácido glutâmico')
+        plt.xlabel('Phi(φ)')
         plt.ylabel('Frequência Absoluta')
 
         plt.hist(PhiGlu_10, bin, rwidth=0.9, color='green', alpha=0.7,edgecolor='black')
 
         plt.show()
 
-        plt.title('Glutamato')
-        plt.xlabel('Ângulo Phi')
+        plt.title('Ácido glutâmico')
+        plt.xlabel('Psi(ψ)')
         plt.ylabel('Frequência Absoluta')
 
         plt.hist(PsiGlu_10, bin, rwidth=0.9, color='purple', alpha=0.6,edgecolor='black')
 
         plt.show()
 
-def aII():
+def funcaoProb():
 
     arq = open("trajetorias.csv","r")
 
@@ -141,101 +132,67 @@ def aII():
     dp3 = dpAmostral(PhiLeu_33,E3,5500)
     dp4 = dpAmostral(PsiLeu_33,E4,5500)
 
-    print()
-    print("E theta: ",E0)
-    print("E Phi Glutamato: ",E1)
-    print("E Psi Glutamato: ",E2)
-    print("E Phi Leucina: ",E3)
-    print("E Psi Leucina: ",E4)
-    print()
-    print()
-    print("DP Theta: ",dp0)
-    print("DP Phi Glutamato: ",dp1)
-    print("DP Psi Glutamato: ",dp2)
-    print("DP Phi Leucina: ",dp3)
-    print("DP Psi Leucina: ",dp4)
-    print()
-    print("%s%f%s%f%s%f%s" %("1/(",dp0,"*sqrt(2*pi))*np.exp(-1/2*((x-",E0,")/",dp0,")**2)"))
-    print("%s%f%s%f%s%f%s" %("1/(",dp1,"*sqrt(2*pi))*np.exp(-1/2*((x-",E1,")/",dp1,")**2)"))
-    print("%s%f%s%f%s%f%s" %("1/(",dp2,"*sqrt(2*pi))*np.exp(-1/2*((x-",E2,")/",dp2,")**2)"))
-    print("%s%f%s%f%s%f%s" %("1/(",dp3,"*sqrt(2*pi))*np.exp(-1/2*((x-",E3,")/",dp3,")**2)"))
-    print("%s%f%s%f%s%f%s" %("1/(",dp4,"*sqrt(2*pi))*np.exp(-1/2*((x-",E4,")/",dp4,")**2)"))
-    print()
-
-
     for i in range(40):
         bin.append(-180+(i+1)*4.5)
     for i in range(40):
         bin.append((i+1)*4.5)
 
-    aminoacido = input("Proteína (G ou L) ou Theta (T):  ")
+    # Phi e Psi Leu
+    plt.title('Leucina')
+    plt.xlabel('Phi(ψ)')
+    plt.ylabel('Probabilidade')
 
-    if aminoacido == "L" or aminoacido=="l":
+    x = np.arange(-180,180,1)
+    y = 1/(dp3*sqrt(2*pi))*np.exp(-1/2*((x-E3)/dp3)**2)
+    plt.plot(x,y)
 
-        plt.title('Leucina')
-        plt.xlabel('Ângulo Phi')
-        plt.ylabel('Frequência Absoluta')
-        plt.hist(PhiLeu_33, bin, rwidth=2, color='blue', alpha=0.7,edgecolor='black')
-        
-        x = np.arange(-180,180,1)
-        y = 1/(dp3*sqrt(2*pi))*np.exp(-1/2*((x-E3)/dp3)**2)*78000
-        plt.plot(x,y)
-        plt.show()
+    plt.show()
+    plt.title('Leucina')
+    plt.xlabel('Psi(φ)')
+    plt.ylabel('Probabilidade')
 
-
-        plt.title('Leucina')
-        plt.xlabel('Ângulo Psi')
-        plt.ylabel('Frequência Absoluta')
-
-        plt.hist(PsiLeu_33, bin, rwidth=2, color='red', alpha=1,edgecolor='black')
-
-        x = np.arange(-180,180,1)
-        y = 1/(dp4*sqrt(2*pi))*np.exp(-1/2*((x-E4)/dp4)**2)*40725
-        plt.plot(x,y)
+    x = np.arange(-180,180,1)
+    y = 1/(dp4*sqrt(2*pi))*np.exp(-1/2*((x-E4)/dp4)**2)
+    plt.plot(x,y)
 
 
-        plt.show()
+    plt.show()
 
-    elif aminoacido == "T" or aminoacido=="t":
-        plt.title('Theta')
-        plt.xlabel('Ângulo Theta')
-        plt.ylabel('Frequência Absoluta')
+    plt.title('Theta')
+    plt.xlabel('Theta(Θ)')
+    plt.ylabel('Probabilidade')
 
-        plt.hist(angulo, bin, rwidth=2, color='orange', alpha=0.7,edgecolor='black')
+    x = np.arange(-180,180,1)
+    y = 1/(dp0*sqrt(2*pi))*np.exp((-1/2)*((x-E0)/dp0)**2)
 
-        x = np.arange(-180,180,1)
-        y = 1/(dp0*sqrt(2*pi))*np.exp((-1/2)*((x-E0)/dp0)**2)*22807
+    plt.plot(x,y)
 
-        plt.plot(x,y)
+    plt.show()
 
-        plt.show()
+    # Phi e Psi Glu
+    plt.title('Ácido Glutamínico')
+    plt.xlabel('Phi(ψ)')
+    plt.ylabel('Probabilidade')
 
-    else:
-        plt.title('Glutamato')
-        plt.xlabel('Ângulo Phi')
-        plt.ylabel('Frequência Absoluta')
+    x = np.arange(-180,180,1)
+    y = 1/(dp1*sqrt(2*pi))*np.exp(-1/2*((x-E1)/dp1)**2)
+    plt.plot(x,y)
 
-        plt.hist(PhiGlu_10, bin, rwidth=0.9, color='green', alpha=0.7,edgecolor='black')
+    plt.show()
 
-        x = np.arange(-180,180,1)
-        y = 1/(dp1*sqrt(2*pi))*np.exp(-1/2*((x-E1)/dp1)**2)*27733
-        plt.plot(x,y)
+    plt.title('Ácido Glutamínico')
+    plt.xlabel('Psi(φ)')
+    plt.ylabel('Probabilidade')
 
-        plt.show()
-        plt.title('Glutamato')
-        plt.xlabel('Ângulo Phi')
-        plt.ylabel('Frequência Absoluta')
+    x = np.arange(-180,180,1)
+    y = 1/(dp2*sqrt(2*pi))*np.exp(-1/2*((x-E2)/dp2)**2)
+    plt.plot(x,y)
 
-        plt.hist(PsiGlu_10, bin, rwidth=0.9, color='purple', alpha=0.6,edgecolor='black')
+    plt.show()
 
-        x = np.arange(-180,180,1)
-        y = 1/(dp2*sqrt(2*pi))*np.exp(-1/2*((x-E2)/dp2)**2)*51000
-        plt.plot(x,y)
+    arq.close()
 
-        plt.show()
-        arq.close()
-
-def aIII():
+def hist_2750_psixtempo():
 
     arq = open("trajetorias.csv","r")
 
@@ -277,15 +234,7 @@ def aIII():
 
 
     plt.title('Glutamato')
-    plt.xlabel('Ângulo Phi')
-    plt.ylabel('Frequência Absoluta')
-
-    plt.hist(PhiGlu_10[2750:], bin, rwidth=0.9, color='green', alpha=0.7,edgecolor='black')
-
-    plt.show()
-
-    plt.title('Glutamato')
-    plt.xlabel('Ângulo Phi')
+    plt.xlabel('Ângulo Psi')
     plt.ylabel('Frequência Absoluta')
 
     plt.hist(PsiGlu_10[2750:], bin, rwidth=0.9, color='purple', alpha=0.6,edgecolor='black')
@@ -293,9 +242,10 @@ def aIII():
     plt.show()
 
 
-    plt.plot(tempo,angulo)
-    plt.plot(tempo,PhiGlu_10)
+    plt.ylabel('Ângulo')
+    plt.xlabel('Tempo (ps)')
     plt.plot(tempo,PsiGlu_10)
+    plt.plot(tempo,angulo)
 
     plt.show()
 
@@ -346,11 +296,11 @@ def funcao():
     print("E Psi Leucina: ",E4)
     print()
     print()
-    print("DP Theta: ",dp0)
-    print("DP Phi Glutamato: ",dp1)
-    print("DP Psi Glutamato: ",dp2)
-    print("DP Phi Leucina: ",dp3)
-    print("DP Psi Leucina: ",dp4)
+    print("Variância Theta: ",dp0)
+    print("Variância Phi Glutamato: ",dp1)
+    print("Variância Psi Glutamato: ",dp2)
+    print("Variância Phi Leucina: ",dp3)
+    print("Variância Psi Leucina: ",dp4)
     print()
 
     for i in range(40):
@@ -419,7 +369,7 @@ def funcao():
         plt.show()
         arq.close()
 
-def ramachandran():
+def ramachandran():   # Tive ajuda do Henrique Fukushima nessa função
 
     arq = open("trajetorias.csv","r")
 
@@ -445,20 +395,92 @@ def ramachandran():
         PhiLeu_33.append(linha[4])
         PsiLeu_33.append(linha[5])
 
-    plt.title('Glutamina')
-    plt.xlabel('Ângulo Phi')
-    plt.ylabel('Ângulo PSi')
-    plt.scatter(PhiGlu_10,PsiGlu_10,0.5)
-    
+    plt.title('Ramachandran Leu')
+    plt.xlabel('Phi(ψ)')
+    plt.ylabel('Psi(φ)')
+    plt.hist2d(PhiLeu_33,PsiLeu_33,bins=(150,150), range=[(-180,180), (-180,180)])
+    plt.axhline(y=0,linestyle="solid")
+    plt.axvline(x=0,linestyle="solid")
     plt.show()
 
-    plt.title('Leucina')
-    plt.xlabel('Ângulo Phi')
-    plt.ylabel('Ângulo PSi')
-    plt.scatter(PhiLeu_33,PsiLeu_33,0.5)
-    
+    plt.title('Ramachandran Glu')
+    plt.xlabel('Phi(ψ)')
+    plt.ylabel('Psi(φ)')
+    plt.hist2d(PhiGlu_10,PsiGlu_10,bins=(150,150), range=[(-180,180), (-180,180)])
+    plt.axhline(y=0,linestyle="solid")
+    plt.axvline(x=0,linestyle="solid")
     plt.show()
 
+def projecao():  # Esta função veio do site: https://matplotlib.org/2.0.2/examples/pylab_examples/scatter_hist.html
 
-ramachandran()
+    arq = open("trajetorias.csv","r")
+
+    matriz = []
+
+    tempo = []
+    angulo = []
+    PhiGlu_10 = []
+    PsiGlu_10 = []
+    PhiLeu_33 = []
+    PsiLeu_33 = []
+
+    bin = []
+
+    for linha in arq:
+        matriz.append(list(map(float,linha.strip("\n").split(","))))
+
+    for linha in matriz:
+        tempo.append(linha[0])
+        angulo.append(linha[1])
+        PhiGlu_10.append(linha[2])
+        PsiGlu_10.append(linha[3])
+        PhiLeu_33.append(linha[4])
+        PsiLeu_33.append(linha[5])
+
+    mat = [PhiGlu_10,PsiGlu_10,PhiLeu_33,PsiLeu_33]
+    for i in range(2):
+
+        x = mat[i%2*2]
+        y = mat[i%2*2+1]
+        nullfmt = NullFormatter()         # no labels
+
+        # definitions for the axes
+        left, width = 0.1, 0.65
+        bottom, height = 0.1, 0.65
+        bottom_h = left_h = left + width + 0.02
+
+        rect_scatter = [left, bottom, width, height]
+        rect_histx = [left, bottom_h, width, 0.2]
+        rect_histy = [left_h, bottom, 0.2, height]
+
+        # start with a rectangular Figure
+        plt.figure(1, figsize=(8, 8))
+
+        axScatter = plt.axes(rect_scatter)
+        axHistx = plt.axes(rect_histx)
+        axHisty = plt.axes(rect_histy)
+
+        # no labels
+        axHistx.xaxis.set_major_formatter(nullfmt)
+        axHisty.yaxis.set_major_formatter(nullfmt)
+
+        # the scatter plot:
+        axScatter.scatter(x, y,0.5)
+
+        # now determine nice limits by hand:
+        binwidth = 0.25
+        xymax = np.max([np.max(np.fabs(x)), np.max(np.fabs(y))])
+        lim = (int(xymax/binwidth) + 1) * binwidth
+
+        axScatter.set_xlim((-lim, lim))
+        axScatter.set_ylim((-lim, lim))
+
+        bins = np.arange(-lim, lim + binwidth, binwidth)
+        axHistx.hist(x, bins=bins)
+        axHisty.hist(y, bins=bins, orientation='horizontal')
+
+        axHistx.set_xlim(axScatter.get_xlim())
+        axHisty.set_ylim(axScatter.get_ylim())
+
+        plt.show()
 
