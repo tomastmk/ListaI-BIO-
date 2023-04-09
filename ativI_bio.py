@@ -35,8 +35,13 @@ def histogramas():
 
     aminoacido = input("Proteína (G ou L) ou Theta (T):  ")
 
+    i = 1
     for linha in arq:
-        matriz.append(list(map(float,linha.strip("\n").split(","))))
+        if i ==1:
+            i+=1
+            pass
+        else:
+            matriz.append(list(map(float,linha.strip("\n").split(","))))
 
     for linha in matriz:
         tempo.append(linha[0])
@@ -110,8 +115,13 @@ def funcaoProb():
     bin = []
 
 
+    i = 1
     for linha in arq:
-        matriz.append(list(map(float,linha.strip("\n").split(","))))
+        if i ==1:
+            i+=1
+            pass
+        else:
+            matriz.append(list(map(float,linha.strip("\n").split(","))))
 
     for linha in matriz:
         tempo.append(linha[0])
@@ -207,8 +217,13 @@ def hist_2750_psixtempo():
 
     bin = []
 
+    i = 1
     for linha in arq:
-        matriz.append(list(map(float,linha.strip("\n").split(","))))
+        if i ==1:
+            i+=1
+            pass
+        else:
+            matriz.append(list(map(float,linha.strip("\n").split(","))))
 
     for linha in matriz:
         tempo.append(linha[0])
@@ -266,8 +281,13 @@ def funcao():
 
     aminoacido = input("Proteína (G ou L) ou Theta (T):  ")
 
+    i = 1
     for linha in arq:
-        matriz.append(list(map(float,linha.strip("\n").split(","))))
+        if i ==1:
+            i+=1
+            pass
+        else:
+            matriz.append(list(map(float,linha.strip("\n").split(","))))
 
     for linha in matriz:
         tempo.append(linha[0])
@@ -369,7 +389,7 @@ def funcao():
         plt.show()
         arq.close()
 
-def ramachandran():   # Tive ajuda do Henrique Fukushima nessa função
+def ramachandran():
 
     arq = open("trajetorias.csv","r")
 
@@ -384,8 +404,14 @@ def ramachandran():   # Tive ajuda do Henrique Fukushima nessa função
 
     bin = []
 
+    i = 1
     for linha in arq:
-        matriz.append(list(map(float,linha.strip("\n").split(","))))
+        if i ==1:
+            i+=1
+            pass
+        else:
+            matriz.append(list(map(float,linha.strip("\n").split(","))))
+
 
     for linha in matriz:
         tempo.append(linha[0])
@@ -411,7 +437,7 @@ def ramachandran():   # Tive ajuda do Henrique Fukushima nessa função
     plt.axvline(x=0,linestyle="solid")
     plt.show()
 
-def projecao():  # Esta função veio do site: https://matplotlib.org/2.0.2/examples/pylab_examples/scatter_hist.html
+def projecao():
 
     arq = open("trajetorias.csv","r")
 
@@ -426,8 +452,13 @@ def projecao():  # Esta função veio do site: https://matplotlib.org/2.0.2/exam
 
     bin = []
 
+    i = 1
     for linha in arq:
-        matriz.append(list(map(float,linha.strip("\n").split(","))))
+        if i ==1:
+            i+=1
+            pass
+        else:
+            matriz.append(list(map(float,linha.strip("\n").split(","))))
 
     for linha in matriz:
         tempo.append(linha[0])
@@ -483,4 +514,3 @@ def projecao():  # Esta função veio do site: https://matplotlib.org/2.0.2/exam
         axHisty.set_ylim(axScatter.get_ylim())
 
         plt.show()
-
